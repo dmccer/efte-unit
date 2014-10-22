@@ -1,1 +1,1 @@
-## efte-init
+#efte-initEfte 项目构建工具## TODO1. 自动 ln
