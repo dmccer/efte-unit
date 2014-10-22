@@ -1,11 +1,16 @@
 #!/bin/bash
 
 # 创建项目文件夹
-if [ ! -d "$1" ]; then
-  mkdir $1
+if [ -n "$1" ]; then
+  if [ ! -d "$1" ]; then
+    mkdir $1
+  else
+    echo "$1 目录已存在"
+    exit 1
+  fi
 else
-  echo "$1 目录已存在"
-  exit 1
+  echo '请输入项目名称'
+  exit 1;
 fi
 echo '创建项目文件夹成功'
 
