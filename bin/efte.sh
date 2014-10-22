@@ -1,5 +1,30 @@
 #!/bin/bash
 
+PROJ=$(basename $(pwd))
+VERSION=$(grep 'version' cortex.json | sed -e 's/[^0-9\.]//g')
+
+build='build'
+install='install'
+watch='watch'
+
+if [ "$1" = "$build" ]; then
+  cortex build
+  cd neurons/$PROJ
+  rm -rf latest
+  ln -s $VERSION latest
+  exit 0
+fi
+
+if [ "$1" = "$install" ]; then
+  cortex "$@"
+  exit 0
+fi
+
+if [ "$1" = "$watch" ]; then
+  cortex watch
+  exit 0
+fi
+
 # 创建项目文件夹
 if [ -n "$1" ]; then
   if [ ! -d "$1" ]; then
