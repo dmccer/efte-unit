@@ -47,7 +47,7 @@ echo '创建项目目录结构成功'
 npm install gulp --save
 npm install gulp-less --save
 npm install gulp-cortex-handlebars-compiler --save
-curl ~/.cortext-efte-gulpfile.js ./gulpfile.js
+cp -f /usr/local/efte/template/cortex-efte-gulpfile.js ./gulpfile.js
 echo '安装 npm 工具依赖成功'
 
 # 安装 js 公共依赖库
