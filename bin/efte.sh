@@ -52,7 +52,9 @@ fi
 # efte link
 if [ "$1" = "$link" ]; then
   if [ -n "$2" ]; then
-    curl --header "Content-Type:application/json" -d '{"appName":"apollo","packages":{}}' $BETA/api/app/apollo/checkupdate > .pkgs.json
+    param_pre='{"appName":"'
+    param_end='","packages":{}}'
+    curl --header "Content-Type:application/json" -d "$param_pre$2$param_end" $BETA/api/app/$2/checkupdate > .pkgs.json
     node $NODE_PATH/efte-init/ln.js '.pkgs.json'
     rm -f .pkgs.json
     exit 0
@@ -163,5 +165,6 @@ echo -e $SEP_LINE
 git add -A
 git commit -m '创建项目并初始化'
 echo '项目创建成功'
+echo -e $SEP_LINE
 
 exit 0
