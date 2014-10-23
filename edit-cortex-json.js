@@ -1,9 +1,8 @@
 var jf = require('jsonfile');
 var path = require('path');
-var util = require('util');
 var extend = require('extend');
 
-var tplJson = {
+var ctxTplJson = {
   "directories": {
     "src": "src"
   },
@@ -15,11 +14,22 @@ var tplJson = {
   ]
 };
 
-var args = process.argv;
+var pkgTplJson = {
+  "scripts": {
+    "test": "cortex test"
+  }
+};
 
-var file = path.join(process.cwd(), args[2]);
-var cortexJson = jf.readFileSync(file);
+var CORTEXT_JSON = 'cortex.json';
+var PACKAGE_JSON = 'package.json';
 
-extend(true, cortexJson, tplJson);
+var editJsonFile = function (file, tplJson) {
+  var json = jf.readFileSync(file);
+  extend(true, json, tplJson);
+  jf.writeFileSync(file, json);
+}
 
-jf.writeFileSync(file, cortexJson);
+// 修改 cortex json
+editJsonFile(path.join(process.cwd(), CORTEXT_JSON), ctxTplJson);
+// 修改 package json
+editJsonFile(path.join(process.cwd(), PACKAGE_JSON), pkgTplJson);
