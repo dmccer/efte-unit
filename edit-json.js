@@ -7,7 +7,7 @@ var ctxTplJson = {
     "src": "src"
   },
   "scripts": {
-    "prebuild": "./node_moudles/.bin/gulp"
+    "prebuild": "./node_modules/.bin/gulp"
   },
   "entries": [
     "./js/page/*.js"
@@ -27,7 +27,7 @@ var editJsonFile = function (file, tplJson) {
   var json = jf.readFileSync(file);
   extend(true, json, tplJson);
   jf.writeFileSync(file, json);
-}
+};
 
 // 修改 cortex json
 editJsonFile(path.join(process.cwd(), CORTEXT_JSON), ctxTplJson);
