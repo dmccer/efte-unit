@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # 环境变量
+os=`uname -s`
+osx='Darwin'
+
 if [ -z "$NODE" ]; then
   NODE='/usr/local/bin'
 fi
@@ -137,8 +140,13 @@ echo '安装 npm 工具依赖成功'
 echo -e $SEP_LINE
 
 # 安装模板项目
-cp -rf $NODE_PATH/efte-init/template/* ./
-sed -i '' -e "s/$TPL_UNIT/$1/g" `grep "$TPL_UNIT" -rl ./handlebar/*`
+if [ "$os" != "$osx" -a "$os" != "$linux" ]; then
+  cp -rf $NODE_PATH/efte-init/template/* ./
+  sed -e "s/$TPL_UNIT/$1/g" `grep "$TPL_UNIT" -rl ./handlebar/*`
+else
+  cp -rf $NODE_PATH/efte-init/template/* ./
+  sed -i '' -e "s/$TPL_UNIT/$1/g" `grep "$TPL_UNIT" -rl ./handlebar/*`
+fi
 echo '安装模板项目成功'
 echo -e $SEP_LINE
 
@@ -163,9 +171,6 @@ echo '配置 cortex.json 和 package.json 成功'
 echo -e $SEP_LINE
 
 # .gitignore
-os=`uname -s`
-osx='Darwin'
-
 if [ "$os" = "$osx" ]; then
   sed -i '' -e '1i\
     \# custom\
