@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "efte CLI tools",
   "main": "index.js",
+  "bin": {
+    "efte": "./bin/efte.sh"
+  },
   "directories": {
     "man": "man"
   },
@@ -19,5 +22,8 @@
     "tools"
   ],
   "author": "Kane",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jsonfile": "^2.0.0"
+  }
 }
