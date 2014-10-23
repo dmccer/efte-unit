@@ -1,12 +1,21 @@
 #!/bin/bash
 
+# 项目常量
 PROJ=$(basename $(pwd))
 VERSION=$(grep 'version' cortex.json | sed -e 's/[^0-9\.]//g')
 
+# 发布环境 url
+PRD='http://efte.dianping.com'
+BETA='http://beta.efte.dp'
+ALPHA='http://192.168.218.29'
+
+# 可选命令
 build='build'
 install='install'
 watch='watch'
+link='link'
 
+# efte build
 if [ "$1" = "$build" ]; then
   cortex build
   cd neurons/$PROJ
@@ -15,17 +24,28 @@ if [ "$1" = "$build" ]; then
   exit 0
 fi
 
+# efte install
 if [ "$1" = "$install" ]; then
   cortex "$@"
   exit 0
 fi
 
+# efte watch
 if [ "$1" = "$watch" ]; then
   cortex watch
   exit 0
 fi
 
-# 创建项目文件夹
+# efte link
+if [ "$1" = "$link" ]; then
+  curl --header "Content-Type:application/json" -d '{"appName":"apollo","packages":{}}' http://beta.efte.dp/api/app/apollo/checkupdate
+# TODO
+# 分析 json 提取 name
+# 创建软连接
+  exit 0
+fi
+
+# 创建项目文件夹: efte proj
 if [ -n "$1" ]; then
   if [ ! -d "$1" ]; then
     mkdir $1
