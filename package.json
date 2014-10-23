@@ -24,6 +24,7 @@
   "author": "Kane",
   "license": "ISC",
   "dependencies": {
+    "extend": "^2.0.0",
     "jsonfile": "^2.0.0"
   }
 }

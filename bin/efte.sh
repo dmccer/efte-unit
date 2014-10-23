@@ -97,7 +97,7 @@ echo '创建项目目录结构成功'
 npm install gulp --save
 npm install gulp-less --save
 npm install gulp-cortex-handlebars-compiler --save
-cp -f /usr/local/efte/template/cortex-efte-gulpfile.js ./gulpfile.js
+cp -f /usr/local/node_modules/efte-init/template/cortex-efte-gulpfile.js ./gulpfile.js
 echo '安装 npm 工具依赖成功'
 
 # 安装 js 公共依赖库
@@ -115,6 +115,7 @@ echo '安装 apollo 基础样式库成功'
 
 # 修改 cortex.json
 # TODO
+node /usr/local/lib/node_modules/efte-init/edit-cortex-json.js cortex.json
 
 # .gitignore
 sed -i '' -e '1i\
