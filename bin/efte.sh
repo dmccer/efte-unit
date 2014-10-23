@@ -1,8 +1,13 @@
 #!/bin/bash
 
 # 环境变量
-NODE=/usr/local/bin
-NODE_PATH=/usr/local/lib/node_modules
+if [ -z "$NODE" ]; then
+  NODE='/usr/local/bin'
+fi
+
+if [ -z "$NODE_PATH" ]; then
+  NODE_PATH='/usr/local/lib/node_modules'
+fi
 
 # 常量
 SEP_LINE='\n======================================\n'
@@ -24,6 +29,7 @@ ALPHA='http://192.168.218.29'
 # 可选命令
 build='build'
 install='install'
+update='update'
 watch='watch'
 link='link'
 
@@ -39,6 +45,12 @@ fi
 
 # efte install
 if [ "$1" = "$install" ]; then
+  cortex "$@"
+  exit 0
+fi
+
+# efte update
+if [ "$1" = "$update" ]; then
   cortex "$@"
   exit 0
 fi
@@ -146,18 +158,30 @@ echo '安装 apollo 基础样式库成功'
 echo -e $SEP_LINE
 
 # 修改 cortex.json
-# TODO
 node $NODE_PATH/efte-init/edit-json.js cortex.json
 echo '配置 cortex.json 和 package.json 成功'
 echo -e $SEP_LINE
 
 # .gitignore
-sed -i '' -e '1i\
-  \# custom\
-  less/common\
-  src' .gitignore
+os=`uname -s`
+osx='Darwin'
 
-sed -i '' -e '3G' .gitignore
+if [ "$os" = "$osx" ]; then
+  sed -i '' -e '1i\
+    \# custom\
+    less/common\
+    src' .gitignore
+
+  sed -i '' -e '3G' .gitignore
+else
+  sed -e '1i\
+    \# custom\
+    less/common\
+    src' .gitignore
+
+  sed -e '3G' .gitignore
+fi
+
 echo '配置 .gitignore 成功'
 echo -e $SEP_LINE
 
@@ -166,5 +190,14 @@ git add -A
 git commit -m '创建项目并初始化'
 echo '项目创建成功'
 echo -e $SEP_LINE
+
+# 用户引导
+echo '建议安装 imock'
+echo '- npm install imock '
+echo '- imock -j mock -b api -w neurons -p 3000'
+echo '- 浏览器打开 open http://localhost:3000/neurons/src/index.html'
+echo '*************************************'
+echo '*   Happy on Developing with Efte   *'
+echo '*************************************'
 
 exit 0
