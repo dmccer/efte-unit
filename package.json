@@ -1,0 +1,23 @@
+{
+  "name": "efte-init",
+  "version": "1.0.0",
+  "description": "efte CLI tools",
+  "main": "index.js",
+  "directories": {
+    "man": "man"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@code.dianpingoa.com:f2e/efte-init.git"
+  },
+  "keywords": [
+    "efte",
+    "CLI",
+    "tools"
+  ],
+  "author": "Kane",
+  "license": "ISC"
+}
