@@ -41,7 +41,9 @@ fi
 
 # efte link
 if [ "$1" = "$link" ]; then
-  curl --header "Content-Type:application/json" -d '{"appName":"apollo","packages":{}}' http://beta.efte.dp/api/app/apollo/checkupdate
+  curl --header "Content-Type:application/json" -d '{"appName":"apollo","packages":{}}' http://beta.efte.dp/api/app/apollo/checkupdate > .pkgs.json
+  node /usr/local/lib/node_modules/efte-init/ln.js '.pkgs.json'
+  rm -f .pkgs.json
 # TODO
 # 分析 json 提取 name
 # 创建软连接
