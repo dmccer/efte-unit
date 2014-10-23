@@ -1,9 +1,18 @@
 #!/bin/bash
 
+# 环境变量
+NODE=/usr/local/bin
+NODE_PATH=/usr/local/lib/node_modules
+
+# 常量
+SEP_LINE='\n======================================\n'
+
 # 项目常量
 PROJ=$(basename $(pwd))
+TPL_UNIT='unit-m-template'
+UNIT_PREFIX='unit-'
 
-if [ "$PROJ" == "unit-*" ]; then
+if [[ $PROJ == $UNIT_PREFIX* ]]; then
   VERSION=$(grep 'version' cortex.json | sed -e 's/[^0-9\.]//g')
 fi
 
@@ -23,6 +32,7 @@ if [ "$1" = "$build" ]; then
   cortex build
   cd neurons/$PROJ
   rm -rf latest
+  echo "link $VERSION > latest"
   ln -s $VERSION latest
   exit 0
 fi
@@ -41,16 +51,18 @@ fi
 
 # efte link
 if [ "$1" = "$link" ]; then
-  curl --header "Content-Type:application/json" -d '{"appName":"apollo","packages":{}}' http://beta.efte.dp/api/app/apollo/checkupdate > .pkgs.json
-  node /usr/local/lib/node_modules/efte-init/ln.js '.pkgs.json'
-  rm -f .pkgs.json
-# TODO
-# 分析 json 提取 name
-# 创建软连接
-  exit 0
+  if [ -n "$2" ]; then
+    curl --header "Content-Type:application/json" -d '{"appName":"apollo","packages":{}}' $BETA/api/app/apollo/checkupdate > .pkgs.json
+    node $NODE_PATH/efte-init/ln.js '.pkgs.json'
+    rm -f .pkgs.json
+    exit 0
+  else
+    echo '请输入 Efte 站点上 App 名称'
+    exit 1
+  fi
 fi
 
-# 创建项目文件夹: efte proj
+# 创建 unit 项目文件夹: efte proj
 if [ -n "$1" ]; then
   if [ ! -d "$1" ]; then
     mkdir $1
@@ -63,6 +75,7 @@ else
   exit 1;
 fi
 echo '创建项目文件夹成功'
+echo -e $SEP_LINE
 
 # 进入 $1 目录
 cd $1
@@ -78,13 +91,16 @@ else
   exit 1
 fi
 echo '初始化 git 项目成功'
+echo -e $SEP_LINE
 
 # cortex、npm 初始化
 cortex init
 echo '初始化 cortex 成功'
+echo -e $SEP_LINE
 
 npm init
 echo '初始化 npm 成功'
+echo -e $SEP_LINE
 
 # 创建项目目录结构
 rm ./index.html
@@ -97,19 +113,27 @@ mkdir js/env
 mkdir js/util
 mkdir src
 echo '创建项目目录结构成功'
+echo -e $SEP_LINE
 
 # 安装 npm 工具依赖
 npm install gulp --save
 npm install gulp-less --save
 npm install gulp-cortex-handlebars-compiler --save
-cp -f /usr/local/lib/node_modules/efte-init/template/cortex-efte-gulpfile.js ./gulpfile.js
 echo '安装 npm 工具依赖成功'
+echo -e $SEP_LINE
+
+# 安装模板项目
+cp -rf $NODE_PATH/efte-init/template/* ./
+sed -i '' -e "s/$TPL_UNIT/$1/g" `grep "$TPL_UNIT" -rl ./handlebar/*`
+echo '安装模板项目成功'
+echo -e $SEP_LINE
 
 # 安装 js 公共依赖库
 cortex install zepto --save
 cortex install underscore --save
 cortex install efte --save
 echo '安装 js 公共依赖库成功'
+echo -e $SEP_LINE
 
 # 安装 apollo 基础样式库
 git submodule add 'git@code.dianpingoa.com:f2e/m-apollo-theme-base.git' less/common
@@ -117,10 +141,13 @@ cd less/common
 git checkout master
 cd ../../
 echo '安装 apollo 基础样式库成功'
+echo -e $SEP_LINE
 
 # 修改 cortex.json
 # TODO
-node /usr/local/lib/node_modules/efte-init/edit-json.js cortex.json
+node $NODE_PATH/efte-init/edit-json.js cortex.json
+echo '配置 cortex.json 和 package.json 成功'
+echo -e $SEP_LINE
 
 # .gitignore
 sed -i '' -e '1i\
@@ -129,10 +156,12 @@ sed -i '' -e '1i\
   src' .gitignore
 
 sed -i '' -e '3G' .gitignore
+echo '配置 .gitignore 成功'
+echo -e $SEP_LINE
 
 # 提交改动
 git add -A
 git commit -m '创建项目并初始化'
-
 echo '项目创建成功'
+
 exit 0
