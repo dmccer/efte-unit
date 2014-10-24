@@ -180,9 +180,9 @@ if [ "$os" = "$osx" ]; then
   sed -i '' -e '3G' .gitignore
 else
   sed -e '1i\
-    \# custom\
-    less/common\
-    src' .gitignore
+\# custom\
+less/common\
+src' .gitignore
 
   sed -e '3G' .gitignore
 fi

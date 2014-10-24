@@ -4,7 +4,7 @@
   "description": "efte CLI tools",
   "main": "index.js",
   "bin": {
-    "efte": "./bin/efte.sh"
+    "eftu": "./bin/eftu.sh"
   },
   "directories": {
     "man": "man"
