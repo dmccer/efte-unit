@@ -141,7 +141,8 @@ echo -e $SEP_LINE
 
 # 安装模板项目
 if [ "$os" != "$osx" -a "$os" != "$linux" ]; then
-  cp -rf $NODE_PATH/efte-init/template/* ./
+  node $NODE_PATH/efte-init/cp.js
+  # cp -rf $NODE_PATH/efte-init/template/* ./
   sed -e "s/$TPL_UNIT/$1/g" `grep "$TPL_UNIT" -rl ./handlebar/*`
 else
   cp -rf $NODE_PATH/efte-init/template/* ./
