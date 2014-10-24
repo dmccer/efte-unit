@@ -1,5 +1,5 @@
-var spawn = require('child_process');
+var spawn = require('child_process').spawn;
 var path = require('path');
 
-console.log(NODE_PATH);
 spawn('cp', ['-f', path.join(__dirname, 'template', '*'), './']);
+console.log(path.join(__dirname, 'template', '*'));
