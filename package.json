@@ -1,6 +1,6 @@
 {
   "name": "efte-init",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "efte CLI tools",
   "main": "index.js",
   "bin": {
