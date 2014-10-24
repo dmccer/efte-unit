@@ -2,10 +2,14 @@
 
 Efte unit 项目构建工具
 
+```bash
+$ npm install -g efte-init
+```
+
 ## 创建 unit-m 项目
 
 ```bash
-eftu unit-m-name
+$ eftu unit-m-name
 ```
 注: 项目创建期间, 要求指定 git url
 
@@ -14,38 +18,38 @@ eftu unit-m-name
 build unit-m-name
 
 ```bash
-cd unit-m-name
-eftu build
+$ cd unit-m-name
+$ eftu build
 ```
 
 install 依赖包
 
 ```bash
 # 神似 npm install, 就是 cortex install
-eftu install zepto --save
+$ eftu install zepto --save
 ```
 
 update 依赖包
 
 ```bash
 # update 当前项目的所有依赖包
-eftu update
+$ eftu update
 
 # update 指定的依赖包
-eftu update [name...]
+$ eftu update [name...]
 ```
 
 watch 文件变化
 
 ```bash
-eftu watch
+$ eftu watch
 ```
 
 link 创建其他项目的软连接
 
 ```bash
 # apollo 是 eftu 站点上创建的 App 名称
-eftu link apollo
+$ eftu link apollo
 ```
 
 ## TODO
