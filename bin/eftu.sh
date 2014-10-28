@@ -70,7 +70,7 @@ if [ "$1" = "$link" ]; then
     param_pre='{"appName":"'
     param_end='","packages":{}}'
     curl --header "Content-Type:application/json" -d "$param_pre$2$param_end" $BETA/api/app/$2/checkupdate > .pkgs.json
-    node $NODE_PATH/efte-init/ln.js '.pkgs.json'
+    node $NODE_PATH/efte-unit/ln.js '.pkgs.json'
     rm -f .pkgs.json
     exit 0
   else
@@ -141,11 +141,11 @@ echo -e $SEP_LINE
 
 # 安装模板项目
 if [ "$os" != "$osx" -a "$os" != "$linux" ]; then
-  node $NODE_PATH/efte-init/cp.js
-  # cp -rf $NODE_PATH/efte-init/template/* ./
+  node $NODE_PATH/efte-unit/cp.js
+  # cp -rf $NODE_PATH/efte-unit/template/* ./
   sed -e "s/$TPL_UNIT/$1/g" `grep "$TPL_UNIT" -rl ./handlebar/*`
 else
-  cp -rf $NODE_PATH/efte-init/template/* ./
+  cp -rf $NODE_PATH/efte-unit/template/* ./
   sed -i '' -e "s/$TPL_UNIT/$1/g" `grep "$TPL_UNIT" -rl ./handlebar/*`
 fi
 echo '安装模板项目成功'
@@ -167,7 +167,7 @@ echo '安装 apollo 基础样式库成功'
 echo -e $SEP_LINE
 
 # 修改 cortex.json
-node $NODE_PATH/efte-init/edit-json.js cortex.json
+node $NODE_PATH/efte-unit/edit-json.js cortex.json
 echo '配置 cortex.json 和 package.json 成功'
 echo -e $SEP_LINE
 
