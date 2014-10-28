@@ -3,7 +3,7 @@
 Efte unit 项目构建工具
 
 ```bash
-$ npm install -g efte-init
+$ npm install -g efte-unit
 ```
 
 ## 创建 unit-m 项目
