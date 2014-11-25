@@ -28,9 +28,9 @@ var VERSION,
 	TPL_UNIT='unit-m-template';
 
 
-if (PROJ.indexOf(UNIT_PREFIX) != -1) {
-	VERSION = shelljs.sed('-e', 's/[^0-9\.]//g', grep('version', 'cortex.json'));
-}
+// if (PROJ.indexOf(UNIT_PREFIX) != -1) {
+// 	VERSION = shelljs.sed('-e', 's/[^0-9\.]//g', grep('version', 'cortex.json'));
+// }
 
 // 发布环境 url
 var PRD = 'http://efte.dianping.com',
@@ -56,19 +56,34 @@ if (args.length <= 2) {
 // eftu xxx
 // 第一个参数是：xxx
 var firstArg = args[2];
+var allArgs = args.slice(2);
+
+var cortexCmd = function (args) {
+	var cmdStr = 'cortex ' + args.join(' ');
+
+	if (shelljs.exec(cmdStr).code !== 0) {
+		return console.log(error(cmdStr + '失败'))
+	}
+}
 
 switch (firstArg) {
 	case 'build':
 		console.log('eftu build');
 		break;
 	case 'install':
-		console.log('eftu install')
-		break;
 	case 'update':
-		console.log('eftu update')
-		break;
 	case 'watch':
-		console.log('eftu watch')
+	case 'config':
+	case 'ls':
+	case 'search':
+	case 'publish':
+	case 'unpublish':
+	case 'adduser':
+	case 'init':
+	case 'profile':
+	case 'server':
+	case 'shrinkwrap':
+		cortexCmd(allArgs);
 		break;
 	case 'link':
 		console.log('eftu link')
