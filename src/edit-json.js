@@ -5,20 +5,20 @@ var extend = require('extend');
 var stripJsonComments = require('strip-json-comments');
 
 var ctxTplJson = {
-  "directories": {
-    "src": "src"
+  'directories': {
+    'src': 'src'
   },
-  "scripts": {
-    "prebuild": "./node_modules/.bin/gulp"
+  'scripts': {
+    'prebuild': './node_modules/.bin/gulp'
   },
-  "entries": [
-    "./js/page/*.js"
+  'entries': [
+    './js/page/*.js'
   ]
 };
 
 var pkgTplJson = {
-  "scripts": {
-    "test": "cortex test"
+  'scripts': {
+    'test': 'cortex test'
   }
 };
 

@@ -5,7 +5,7 @@ var shelljs = require('shelljs');
 var readline = require('readline');
 var async = require('async');
 var spawn = require('child_process').spawn;
-var inquirer = require("inquirer");
+var inquirer = require('inquirer');
 
 var editJson = require('./edit-json');
 
@@ -58,46 +58,6 @@ var gitInit = function(cb) {
     console.log(notice('初始化 git 成功'));
     cb();
   });
-
-  // var rl = readline.createInterface({
-  //     input: process.stdin,
-  //     output: process.stdout
-  // });
-
-  // var count = 0;
-
-  // var input = function() {
-  //     count++;
-  //     rl.question("请输入 git url: \n", function(answer) {
-  //         if (!answer) {
-  //             if (count === 3) {
-  //                 rl.close();
-  //                 return cb(new Error('没有输入 git url, 创建项目失败'));
-  //             }
-
-  //             input();
-  //             return;
-  //         }
-
-  //         var gitInitStr = 'git init';
-  //         if (shelljs.exec(gitInitStr).code !== 0) {
-  //             rl.close();
-  //             return cb(new Error(gitInitStr));
-  //         }
-
-  //         var gitAddRemoteStr = 'git remote add origin ' + answer;
-  //         if (shelljs.exec(gitAddRemoteStr).code !== 0) {
-  //             rl.close();
-  //             return cb(new Error(gitAddRemoteStr + ' 失败'));
-  //         }
-
-  //         console.log(notice('初始化 git 成功'));
-  //         rl.close();
-  //         cb();
-  //     });
-  // }
-
-  // input();
 }
 
 var cortexInit = function(cb) {
@@ -175,7 +135,7 @@ var installTplProj = function(proj, cb) {
     files.pop();
 
     files.forEach(function(file) {
-      var file = path.resolve(shelljs.pwd(), file);
+      file = path.resolve(shelljs.pwd(), file);
 
       var fcon = fs.readFileSync(file, {
         encoding: 'utf8'
@@ -230,8 +190,15 @@ var installTheme = function(cb) {
       value: false
     }]
   }], function(answer) {
+    var gitCmd = [
+      'git submodule add "git@code.dianpingoa.com:f2e/m-apollo-theme-base.git" less/common',
+      'cd less/common',
+      'git checkout master',
+      'cd ../../'
+    ].join(' & ');
+    
     if (answer.installTheme) {
-      if (shelljs.exec('git submodule add "git@code.dianpingoa.com:f2e/m-apollo-theme-base.git" less/common & cd less/common & git checkout master & cd ../../').code !== 0) {
+      if (shelljs.exec(gitCmd).code !== 0) {
         return cb(new Error('安装 apollo 皮肤主题 less 失败'));
       }
 
@@ -249,9 +216,7 @@ var editIgnoreFile = function(cb) {
       encoding: 'utf8'
     });
 
-    var prefix = '# custom \
-      less/common \
-      src';
+    var prefix = '# custom\nless/common\nsrc\n';
 
     fcon = prefix + fcon;
 

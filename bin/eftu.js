@@ -4,6 +4,10 @@ var clc = require('cli-color');
 var path = require('path');
 var shelljs = require('shelljs');
 var createProj = require('../src/create');
+var buildProj = require('../src/build');
+var linkProj = require('../src/ln');
+
+var pkgJson = require('../package.json');
 
 var error = clc.red.bold;
 var warn = clc.yellow;
@@ -22,27 +26,16 @@ if (!shelljs.which('cortex')) {
 var SEP_LINE = '\n======================================\n';
 
 // 项目常量
-var VERSION,
-	PROJ = path.basename(process.cwd()),
+var PROJ = path.basename(process.cwd()),
 	UNIT_PREFIX='unit-',
 	TPL_UNIT='unit-m-template';
 
-
-// if (PROJ.indexOf(UNIT_PREFIX) != -1) {
-// 	VERSION = shelljs.sed('-e', 's/[^0-9\.]//g', grep('version', 'cortex.json'));
-// }
 
 // 发布环境 url
 var PRD = 'http://efte.dianping.com',
 	BETA = 'http://beta.efte.dp',
 	ALPHA = 'http://192.168.218.29';
 
-// 可选命令
-var build = 'build',
-	install = 'install',
-	update = 'update',
-	watch = 'watch',
-	link = 'link';
 
 // 新建 unit 项目: efte proj
 var args = process.argv;
@@ -66,9 +59,26 @@ var cortexCmd = function (args) {
 	}
 }
 
+var help = function () {
+	console.log('Usage: eftu [options]\n');
+	console.log('Options:\n');
+	console.log('  -h, --help', 'help doc');
+	console.log('  -v, --version', 'eftu version');
+	console.log('  [unit-name]', '创建名为 unit-name 的 unit 项目');
+	console.log('  link [appName]', '给当前项目创建 appName 下所有已 clone 到本地的 unit 的软连接');
+	console.log('  build', 'cortex build 并创建最新版本的软连接 latest');
+
+	console.log('\nOther Options:\n');
+	console.log('  install, update, watch, ls, search, publish, unpublish, adduser, init, profile, server, shrinkwrap. Same as cortex.\n')
+}
+
+var version = function () {
+	console.log(pkgJson.version);
+}
+
 switch (firstArg) {
 	case 'build':
-		console.log('eftu build');
+		buildProj();
 		break;
 	case 'install':
 	case 'update':
@@ -86,7 +96,15 @@ switch (firstArg) {
 		cortexCmd(allArgs);
 		break;
 	case 'link':
-		console.log('eftu link')
+		linkProj(allArgs);
+		break;
+	case '-h':
+	case '--help':
+		help();
+		break;
+	case '-v':
+	case '--version':
+		version();
 		break;
 	default:
 		createProj(firstArg);
