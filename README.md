@@ -1,6 +1,6 @@
 # efte-unit
 
-Efte unit 项目构建工具
+Efte unit 项目构建工具, 支持 Windows/Linux/OS X
 
 ```bash
 $ npm install -g efte-unit
@@ -51,13 +51,3 @@ link 创建其他项目的软连接
 # apollo 是 eftu 站点上创建的 App 名称
 $ eftu link apollo
 ```
-
-## TODO
-1. 自动 ln [ `OK` ]
-2. cortex.json 配置修改 [ `OK` ]
-3. ln 其他 unit 到主页所在项目 [ `OK` ]
-4. add demo to template [ `OK` ]
-5. add next step info for user [ `OK` ]
-6. 帮助文档 [ `OK` ]
-7. 兼容 windows/Linux
-8. eftu update [ `OK` ]

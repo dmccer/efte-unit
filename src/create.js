@@ -11,7 +11,7 @@ var editJson = require('./edit-json');
 
 var error = clc.red.bold;
 var warn = clc.yellow;
-var notice = clc.blue;
+var notice = clc.cyan;
 
 var TPL_UNIT = 'unit-m-template';
 

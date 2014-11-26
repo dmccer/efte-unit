@@ -5,7 +5,12 @@ var shelljs = require('shelljs');
 var clc = require('cli-color');
 var error = clc.red.bold;
 var warn = clc.yellow;
-var notice = clc.blue;
+var notice = clc.cyan;
+
+// 发布环境 url
+// var PRD = 'http://efte.dianping.com',
+//     BETA = 'http://beta.efte.dp',
+//     ALPHA = 'http://192.168.218.29';
 
 var creatLinks = function(pkgs) {
   var unitNames = Object.keys(pkgs.packages);
@@ -81,7 +86,10 @@ module.exports = function(args) {
     return console.log(error('获取 unit 项目失败'));
   }
 
-  var resJson = require(path.join(shelljs.pwd(), TEMP_JSON_FILE));
+  var jsonFile = path.join(shelljs.pwd(), TEMP_JSON_FILE);
+  var resJson = require(jsonFile);
 
   creatLinks(resJson);
+
+  shelljs.rm('-rf', jsonFile);
 }
