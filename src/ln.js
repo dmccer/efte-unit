@@ -75,10 +75,12 @@ module.exports = function(args) {
     packages: {}
   };
 
-  var curlStr = 'curl --header "Content-Type:application/json" -d \'' +
-    JSON.stringify(param) + '\' ' +
-    BETA + '/api/app/' + args[1] +
-    '/checkupdate -o ' +TEMP_JSON_FILE;
+  var curlStr = [
+    'curl --header "Content-Type:application/json" -d',
+    '\"' + JSON.stringify(param).replace(/\"/g, '\\"') + '\"',
+    BETA + '/api/app/' + args[1] + '/checkupdate -o',
+    TEMP_JSON_FILE
+  ].join(' ');
 
   if (shelljs.exec(curlStr, {
       async: false
