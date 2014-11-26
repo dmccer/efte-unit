@@ -62,7 +62,8 @@ var gitInit = function(cb) {
 
 var cortexInit = function(cb) {
   var cortexInitStr = 'cortex init';
-  var cortexInit = spawn('cortex', ['init'], {
+  var cortex = process.platform === "win32" ? 'cortex.cmd' : 'cortex';
+  var cortexInit = spawn(cortex, ['init'], {
     stdio: 'inherit'
   });
 
@@ -78,7 +79,8 @@ var cortexInit = function(cb) {
 
 var npmInit = function(cb) {
   var npmInitStr = 'npm init';
-  var npmInit = spawn('npm', ['init'], {
+  var npm = process.platform === "win32" ? 'npm.cmd' : 'npm';
+  var npmInit = spawn(npm, ['init'], {
     stdio: 'inherit'
   });
 
